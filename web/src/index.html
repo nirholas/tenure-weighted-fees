@@ -111,6 +111,7 @@ const key  = poolKeyFor({
         <thead><tr><th>Error</th><th>Meaning</th></tr></thead>
         <tbody><tr><td><code>HookFeeTooLarge()</code></td><td>Fee is higher than the maximum allowed fee.</td></tr>
           <tr><td><code>InvalidTiers()</code></td><td>The tier schedule was empty, too long, out of order, or started above the unweighted multiplier.</td></tr>
+          <tr><td><code>PayoutNotPoolManager()</code></td><td>Only the <code>PoolManager</code> may drive the callback. Named distinctly because <code>BaseHook</code> declares its own.</td></tr>
           <tr><td><code>SkimTooLarge()</code></td><td>The skim must leave the swap worth doing.</td></tr>
           <tr><td><code>WrongPool()</code></td><td>This hook serves one pool, bound at its first initialization.</td></tr></tbody>
       </table>

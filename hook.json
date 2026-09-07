@@ -73,6 +73,10 @@
       "notice": "The tier schedule was empty, too long, out of order, or started above the unweighted multiplier."
     },
     {
+      "signature": "PayoutNotPoolManager()",
+      "notice": "Only the `PoolManager` may drive the callback. Named distinctly because `BaseHook` declares its own."
+    },
+    {
       "signature": "SkimTooLarge()",
       "notice": "The skim must leave the swap worth doing."
     },
@@ -1391,6 +1395,25 @@
       "stateMutability": "view"
     },
     {
+      "type": "function",
+      "name": "unlockCallback",
+      "inputs": [
+        {
+          "name": "data",
+          "type": "bytes",
+          "internalType": "bytes"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes",
+          "internalType": "bytes"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
       "type": "event",
       "name": "Claimed",
       "inputs": [
@@ -1599,6 +1622,11 @@
     {
       "type": "error",
       "name": "NotPoolManager",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "PayoutNotPoolManager",
       "inputs": []
     },
     {

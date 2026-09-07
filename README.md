@@ -50,6 +50,7 @@ This hook takes no per-pool configuration.
 | --- | --- |
 | `HookFeeTooLarge()` | Fee is higher than the maximum allowed fee. |
 | `InvalidTiers()` | The tier schedule was empty, too long, out of order, or started above the unweighted multiplier. |
+| `PayoutNotPoolManager()` | Only the `PoolManager` may drive the callback. Named distinctly because `BaseHook` declares its own. |
 | `SkimTooLarge()` | The skim must leave the swap worth doing. |
 | `WrongPool()` | This hook serves one pool, bound at its first initialization. |
 

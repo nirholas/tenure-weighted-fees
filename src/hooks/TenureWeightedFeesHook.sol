@@ -12,6 +12,7 @@ import {BaseHook} from "uniswap-hooks/base/BaseHook.sol";
 import {BaseHookFee} from "uniswap-hooks/fee/BaseHookFee.sol";
 
 import {ForgeMetadata} from "../base/ForgeMetadata.sol";
+import {ForgePayout} from "../base/ForgePayout.sol";
 
 /**
  * @title TenureWeightedFeesHook
@@ -47,7 +48,7 @@ import {ForgeMetadata} from "../base/ForgeMetadata.sol";
  * @custom:limitation Tenure is measured per position key, so a provider who removes and re-adds starts again, and one who tops up an existing position keeps their tier on the larger amount. That is the intended behaviour but it means the tier is a property of the position rather than of the provider, and a provider holding several positions accrues several independent tenures. The pot is also funded by a skim, so it is not free: swappers pay it, and a pool that sets `skimBps` too high will simply be routed around.
  * @custom:chains base,arbitrum,unichain,robinhood,ethereum,optimism,polygon,bnb
  */
-contract TenureWeightedFeesHook is BaseHookFee, ForgeMetadata {
+contract TenureWeightedFeesHook is BaseHookFee, ForgeMetadata, ForgePayout {
     /// @notice Basis-point denominator.
     uint256 internal constant BPS = 10_000;
 
@@ -208,8 +209,8 @@ contract TenureWeightedFeesHook is BaseHookFee, ForgeMetadata {
         state.owed1 = 0;
 
         PoolKey memory key = _boundKey;
-        if (amount0 > 0) poolManager.transfer(to, key.currency0.toId(), amount0);
-        if (amount1 > 0) poolManager.transfer(to, key.currency1.toId(), amount1);
+        // Paid as real tokens, not as claims: a rebate the recipient has to know to redeem is not a rebate.
+        _payout(key.currency0, key.currency1, to, amount0, amount1);
 
         emit Claimed(position, to, amount0, amount1);
     }
@@ -270,7 +271,7 @@ contract TenureWeightedFeesHook is BaseHookFee, ForgeMetadata {
     /// @dev Shrinks a position. Rewards already earned stay claimable; the tenure clock restarts if it empties.
     function _afterRemoveLiquidity(
         address sender,
-        PoolKey calldata key,
+        PoolKey calldata,
         ModifyLiquidityParams calldata params,
         BalanceDelta,
         BalanceDelta,
@@ -368,6 +369,11 @@ contract TenureWeightedFeesHook is BaseHookFee, ForgeMetadata {
             afterAddLiquidityReturnDelta: false,
             afterRemoveLiquidityReturnDelta: false
         });
+    }
+
+    /// @inheritdoc ForgePayout
+    function _payoutManager() internal view override returns (IPoolManager) {
+        return poolManager;
     }
 
     function hookName() external pure override returns (string memory) {
