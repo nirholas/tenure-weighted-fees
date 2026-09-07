@@ -15,7 +15,7 @@ bytecode_hash = 'none'
 extra_output = ['devdoc', 'userdoc']
 ffi = false
 gas_limit = 300000000
-fs_permissions = [{ access = 'read', path = './' }, { access = 'read-write', path = './deployments' }]
+fs_permissions = [{ access = 'read', path = './' }, { access = 'read-write', path = './deployments' }, { access = 'read-write', path = './web' }]
 
 [profile.default.fuzz]
 runs = 512

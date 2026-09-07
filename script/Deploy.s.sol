@@ -36,12 +36,19 @@ import {TenureWeightedFeesHook} from "src/hooks/TenureWeightedFeesHook.sol";
 contract DeployTenureWeightedFees is Script {
     uint160 internal constant FLAGS = uint160(Hooks.AFTER_INITIALIZE_FLAG | Hooks.AFTER_ADD_LIQUIDITY_FLAG | Hooks.AFTER_REMOVE_LIQUIDITY_FLAG | Hooks.AFTER_SWAP_FLAG | Hooks.AFTER_SWAP_RETURNS_DELTA_FLAG);
 
+    /// @notice Set before deploying: this is part of what the pool is, and it cannot change afterwards.
+    tuple[] public tiers_;
+
+    /// @notice Set before deploying: this is part of what the pool is, and it cannot change afterwards.
+    uint24 public _skimBps;
+
+
     function run() external {
         IPoolManager manager = Chains.poolManager(block.chainid);
         require(address(manager) != address(0), "no Uniswap v4 PoolManager known for this chain");
 
         bytes memory creationCode = type(TenureWeightedFeesHook).creationCode;
-        bytes memory constructorArgs = abi.encode(manager);
+        bytes memory constructorArgs = abi.encode(manager, tiers_, _skimBps);
 
         (address predicted, bytes32 salt) =
             HookMiner.find(Chains.CREATE2_DEPLOYER, FLAGS, creationCode, constructorArgs);
@@ -56,7 +63,7 @@ contract DeployTenureWeightedFees is Script {
         }
 
         vm.startBroadcast();
-        TenureWeightedFeesHook hook = new TenureWeightedFeesHook{salt: salt}(manager);
+        TenureWeightedFeesHook hook = new TenureWeightedFeesHook{salt: salt}(manager, tiers_, _skimBps);
         vm.stopBroadcast();
 
         require(address(hook) == predicted, "mined address did not match the deployment");

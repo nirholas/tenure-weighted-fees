@@ -8,6 +8,9 @@ broadcast/*/dry-run/
 node_modules/
 web/dist/
 
+# Written by script/DeployLocal.s.sol. Names addresses that exist only on the machine that ran it.
+web/local.json
+
 # Env and secrets: never commit a key or an RPC with a token in it
 .env
 .env.*
