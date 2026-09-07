@@ -1,0 +1,19 @@
+# Foundry
+out/
+cache/
+broadcast/*/dry-run/
+.forge-snapshots/
+
+# Node
+node_modules/
+web/dist/
+
+# Env and secrets: never commit a key or an RPC with a token in it
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+.DS_Store
+*.log

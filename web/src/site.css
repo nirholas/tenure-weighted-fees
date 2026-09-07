@@ -1,0 +1,76 @@
+/* One hook, one page. Dark because the scene is lit and a light theme behind it reads wrong. */
+:root {
+  color-scheme: dark;
+  --ink: #07080b; --ink-raised: #0d0f14; --ink-sunken: #050609;
+  --line: #1b1f28; --line-bright: #2a303c;
+  --text: #e8eaef; --text-dim: #9aa3b2; --text-faint: #868e9c;
+  --forge: #ff6a2b; --forge-soft: #ff8a52; --forge-glow: rgba(255, 106, 43, 0.12);
+  --radius: 10px; --radius-lg: 16px;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+body { margin: 0; background: var(--ink); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.shell { max-width: 940px; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.25rem); }
+a { color: var(--forge); text-decoration-color: rgba(255,106,43,.4); text-underline-offset: .2em; }
+a:hover { color: var(--forge-soft); text-decoration-color: currentColor; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--forge); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { line-height: 1.2; letter-spacing: -.02em; margin: 0 0 .5em; font-weight: 640; text-wrap: balance; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 1.85rem); margin-top: 2.6em; }
+h3 { font-size: 1.1rem; margin-top: 1.8em; }
+p, li { text-wrap: pretty; }
+p { margin: 0 0 1.1em; }
+code, pre { font-family: var(--mono); font-size: .9em; }
+code:not(pre code) { background: var(--ink-sunken); border: 1px solid var(--line); border-radius: 5px; padding: .12em .4em; }
+pre { background: var(--ink-sunken); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.15rem; overflow-x: auto; margin: 0 0 1.4em; line-height: 1.55; }
+pre code { white-space: pre; background: none; border: 0; padding: 0; }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; position: fixed; z-index: 100; background: var(--forge); color: #14060a; padding: .6rem 1rem; border-radius: var(--radius); }
+.masthead { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px); background: rgba(7,8,11,.82); }
+.masthead__inner { display: flex; align-items: center; gap: 1.25rem; padding: .8rem 0; }
+.masthead nav { margin-left: auto; display: flex; gap: 1.2rem; flex-wrap: wrap; }
+.masthead a { color: var(--text-dim); text-decoration: none; font-size: .92rem; }
+.masthead a:hover { color: var(--text); }
+.brand { font-weight: 680; letter-spacing: -.03em; color: var(--text); text-decoration: none; }
+.hero { padding: clamp(3rem, 8vw, 5rem) 0 1rem; }
+.eyebrow { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--forge); background: var(--forge-glow); border: 1px solid rgba(255,106,43,.3); border-radius: 999px; padding: .3rem .75rem; margin: 0 0 1.25rem; }
+.lede { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--text-dim); max-width: 60ch; }
+.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin: 1.75rem 0 0; }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1.1rem; border-radius: var(--radius); border: 1px solid var(--line-bright); background: var(--ink-raised); color: var(--text); text-decoration: none; font-size: .92rem; font-weight: 520; transition: transform .15s, border-color .15s; }
+.btn:hover { transform: translateY(-1px); border-color: var(--forge); color: var(--text); }
+.btn--primary { background: var(--forge); border-color: var(--forge); color: #14060a; font-weight: 600; }
+.btn--primary:hover { background: var(--forge-soft); border-color: var(--forge-soft); color: #14060a; }
+/* The scene is the page's backdrop, not a figure inside it: it fills the viewport and the hero copy sits over it. */
+.stage { position: relative; min-height: min(88vh, 820px); display: grid; align-items: end; overflow: hidden; border-bottom: 1px solid var(--line); }
+.scene { position: absolute; inset: 0; z-index: 0; }
+.scene canvas { display: block; width: 100%; height: 100%; }
+.scene__fallback { position: absolute; inset: auto 0 1rem; display: grid; place-items: center; padding: 1.5rem; margin: 0; text-align: center; color: var(--text-dim); font-size: .92rem; }
+.scene__fallback--quiet { display: none; }
+.scene__hint { position: absolute; right: 1rem; bottom: 1rem; z-index: 2; font-family: var(--mono); font-size: .72rem; color: var(--text-faint); pointer-events: none; }
+/* A vignette so type over the scene stays readable wherever the camera happens to be. */
+.stage::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, var(--ink) 2%, rgba(7,8,11,.72) 34%, rgba(7,8,11,.15) 62%, rgba(7,8,11,.55) 100%); }
+.stage .hero { position: relative; z-index: 2; padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+@media (max-width: 720px) { .stage { min-height: min(78vh, 640px); } }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0 0; }
+.stat { background: var(--ink-raised); padding: 1.05rem 1.2rem; }
+.stat dt { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: .25rem; }
+.stat dd { margin: 0; font-size: 1.05rem; font-weight: 600; }
+.callout { border: 1px solid var(--line); border-left: 3px solid var(--line-bright); border-radius: var(--radius); background: var(--ink-raised); padding: 1rem 1.15rem; margin: 0 0 1.6em; }
+.callout h3 { margin: 0 0 .6rem; font-size: .74rem; text-transform: uppercase; letter-spacing: .09em; color: var(--text-faint); }
+.callout p:last-child { margin-bottom: 0; }
+.callout--prior { border-left-color: var(--forge); }
+.callout--warn { border-left-color: #ff6b8a; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: 0 0 1.6em; display: block; overflow-x: auto; }
+th { text-align: left; font-weight: 560; font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--text-faint); padding: .5rem .75rem .5rem 0; border-bottom: 1px solid var(--line-bright); white-space: nowrap; }
+td { padding: .6rem .75rem .6rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+.flags { display: flex; flex-wrap: wrap; gap: .35rem; padding: 0; margin: 0 0 1.5em; list-style: none; }
+.flag { font-family: var(--mono); font-size: .74rem; padding: .16rem .45rem; border-radius: 5px; border: 1px solid var(--line); color: var(--text-faint); background: var(--ink-sunken); }
+.flag--on { color: var(--forge-soft); border-color: rgba(255,106,43,.4); background: var(--forge-glow); }
+.copy { font-family: var(--font); font-size: .72rem; margin-left: .5rem; padding: .1rem .45rem; border-radius: 5px; border: 1px solid var(--line-bright); background: var(--ink-raised); color: var(--text-dim); cursor: pointer; }
+.copy:hover { color: var(--text); border-color: var(--forge); }
+.foot { border-top: 1px solid var(--line); margin-top: 4rem; padding: 2rem 0 3rem; color: var(--text-faint); font-size: .9rem; }
+.foot a { color: var(--text-dim); text-decoration: none; }
+.foot a:hover { color: var(--forge); }

@@ -1,0 +1,57 @@
+[profile.default]
+src = 'src'
+test = 'test'
+script = 'script'
+out = 'out'
+libs = ['lib']
+solc = '0.8.26'
+evm_version = 'cancun'
+optimizer = true
+optimizer_runs = 800
+via_ir = false
+bytecode_hash = 'none'
+# devdoc/userdoc are the source of truth for the docs site and the published hook manifests:
+# packages/registry reads them straight out of the build artifacts, so a NatSpec edit updates the website.
+extra_output = ['devdoc', 'userdoc']
+ffi = false
+gas_limit = 300000000
+fs_permissions = [{ access = 'read', path = './' }, { access = 'read-write', path = './deployments' }]
+
+[profile.default.fuzz]
+runs = 512
+seed = '0x484f4f4b'
+
+[profile.ci.fuzz]
+runs = 5000
+
+[profile.deep.fuzz]
+runs = 50000
+
+[profile.default.invariant]
+runs = 32
+depth = 200
+fail_on_revert = false
+
+[rpc_endpoints]
+base = "${BASE_RPC_URL}"
+arbitrum = "${ARBITRUM_RPC_URL}"
+unichain = "${UNICHAIN_RPC_URL}"
+robinhood = "${ROBINHOOD_RPC_URL}"
+ethereum = "${ETHEREUM_RPC_URL}"
+
+[etherscan]
+base = { key = "${ETHERSCAN_API_KEY}", chain = 8453 }
+arbitrum = { key = "${ETHERSCAN_API_KEY}", chain = 42161 }
+unichain = { key = "${ETHERSCAN_API_KEY}", chain = 130 }
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+int_types = 'long'
+
+[lint]
+# The linter runs on `forge build`, and its unsafe-cast rule fires on every `int256(x)` in a test where `x` came from
+# `bound()` and cannot truncate. Annotating each one buries the signal, so tests are excluded and `src` is held to a
+# zero-warning standard where a truncating cast would actually matter.
+ignore = ["test/**/*.sol", "test/*.sol"]

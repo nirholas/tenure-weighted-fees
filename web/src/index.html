@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TenureWeightedFees: Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool</title>
+<meta name="description" content="Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.">
+<link rel="canonical" href="https://tenure-weighted-fees.pages.dev/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#07080b">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TenureWeightedFees">
+<meta property="og:title" content="TenureWeightedFees">
+<meta property="og:description" content="Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.">
+<meta property="og:url" content="https://tenure-weighted-fees.pages.dev/">
+<meta property="og:image" content="https://tenure-weighted-fees.pages.dev/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TenureWeightedFees">
+<meta name="twitter:description" content="Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.">
+<meta name="twitter:image" content="https://tenure-weighted-fees.pages.dev/og.png">
+
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="alternate" type="text/plain" title="For language models" href="/llms.txt">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"TenureWeightedFees","description":"Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.","url":"https://tenure-weighted-fees.pages.dev","codeRepository":"https://github.com/nirholas/tenure-weighted-fees","programmingLanguage":"Solidity","runtimePlatform":"Ethereum Virtual Machine","license":"https://www.apache.org/licenses/LICENSE-2.0","keywords":"lp-economics, tenure, jit-defence, rewards, no-admin","isPartOf":{"@type":"WebSite","name":"HookForge","url":"https://hookforge.pages.dev"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="shell masthead__inner">
+    <a class="brand" href="/">TenureWeightedFees</a>
+    <nav aria-label="Primary">
+      <a href="#how">How it works</a>
+      <a href="#using">Using it</a>
+      <a href="#deploy">Deploy</a>
+      <a href="https://github.com/nirholas/tenure-weighted-fees" rel="noopener">GitHub</a>
+      <a href="https://hookforge.pages.dev" rel="noopener">Catalogue</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="stage">
+    <div class="scene">
+      <canvas data-permissions="{&quot;afterRemoveLiquidityReturnsDelta&quot;:false,&quot;afterAddLiquidityReturnsDelta&quot;:false,&quot;afterSwapReturnsDelta&quot;:true,&quot;beforeSwapReturnsDelta&quot;:false,&quot;afterDonate&quot;:false,&quot;beforeDonate&quot;:false,&quot;afterSwap&quot;:true,&quot;beforeSwap&quot;:false,&quot;afterRemoveLiquidity&quot;:true,&quot;beforeRemoveLiquidity&quot;:false,&quot;afterAddLiquidity&quot;:true,&quot;beforeAddLiquidity&quot;:false,&quot;afterInitialize&quot;:true,&quot;beforeInitialize&quot;:false}" aria-hidden="true"></canvas>
+      <p class="scene__fallback">TenureWeightedFees implements 5 of the fourteen Uniswap v4 callbacks: afterInitialize, afterAddLiquidity, afterRemoveLiquidity, afterSwap, afterSwapReturnsDelta.</p>
+    </div>
+    <p class="scene__hint">drag to orbit</p>
+
+  <section class="shell hero">
+    <p class="eyebrow">Uniswap v4 hook &middot; Liquidity provider economics</p>
+    <h1>TenureWeightedFees</h1>
+    <p class="lede">Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.</p>
+    <div class="cta-row">
+      <a class="btn btn--primary" href="https://github.com/nirholas/tenure-weighted-fees" rel="noopener">Source on GitHub</a>
+      <a class="btn" href="#using">Use it in a pool</a>
+      <a class="btn" href="/hook.json">Manifest JSON</a>
+    </div>
+
+    <dl class="stats">
+      <div class="stat"><dt>Family</dt><dd>Liquidity provider economics</dd></div>
+      <div class="stat"><dt>Callbacks</dt><dd>5 of 14</dd></div>
+      <div class="stat"><dt>Fee</dt><dd>static</dd></div>
+      <div class="stat"><dt>Admin keys</dt><dd>none</dd></div>
+      <div class="stat"><dt>Licence</dt><dd>Apache-2.0</dd></div>
+    </dl>
+  </section>
+  </div>
+
+  <section class="shell">
+    <h2 id="how">How it works</h2>
+      <p>A Uniswap pool pays for capital present at the moment of a swap and is indifferent to everything else. That is a defensible rule and it has a consequence: the most profitable way to provide liquidity is to not provide it. Wait until a large trade is visible, add liquidity in front of it, collect the fee, and remove.</p>
+      <p>The position existed for two transactions, earned the same rate as capital that had been quoting for a month, and took none of the risk that month carried. Just-in-time provision is the sharpest version, and hooks exist that penalise it directly. But the penalty is treating a symptom: the pool's fee schedule genuinely does not distinguish a month of quoting from a moment of it, and every provider who does the useful thing is underpaid relative to one who does not.</p>
+      <p>This hook adds a second, parallel payment that does distinguish. It skims `skimBps` of every swap into a pot, and shares the pot by tenure-weighted stake: a position's share is its liquidity multiplied by a tenure multiplier that steps up as it stays. The ordinary Uniswap fee is untouched and still goes to whoever is in range, so nobody is taxed for arriving; the tenure pot is simply money a passer-through never accrues any claim on.</p>
+      <p>The multiplier steps at configured thresholds rather than growing continuously, and that is deliberate. A share that grows continuously cannot be tracked by a reward accumulator without either re-deriving every position on every swap or accepting drift. Discrete tiers change a position's share at known instants, which an accumulator handles exactly, so nobody is short-changed by an approximation.</p>
+      <p>A position's tier is applied when it is next touched, and {poke} lets anybody touch any position, so realising an upgrade never depends on the pool being busy. Rewards accrue in whichever currency each swap paid them in, so the pot holds both. Claims settle both sides.</p>
+
+    <div class="callout callout--prior"><h3>Prior art</h3><p>Liquidity-mining schemes weight by liquidity and time, off-pool and funded by an emissions budget. LiquidityPenalty and the JIT-defence hooks punish short-lived positions. Curve's vote-escrow weights governance by lock length.</p>
+      <p>Paying tenure out of the pool's own trading flow, alongside an untouched Uniswap fee, so that staying is rewarded without arriving being taxed, is the contribution here.</p></div>
+    <div class="callout callout--warn"><h3>Where it does not help</h3><p>Tenure is measured per position key, so a provider who removes and re-adds starts again, and one who tops up an existing position keeps their tier on the larger amount. That is the intended behaviour but it means the tier is a property of the position rather than of the provider, and a provider holding several positions accrues several independent tenures. The pot is also funded by a skim, so it is not free: swappers pay it, and a pool that sets `skimBps` too high will simply be routed around.</p></div>
+
+    <h2 id="using">Using it</h2>
+    <p>
+      Uniswap v4 removed <code>hookData</code> from <code>initialize</code>, so per-pool parameters arrive out of band.
+      Fix them for a pool key whose pool does not exist yet, then initialize. Nobody can change them afterwards,
+      including you.
+    </p>
+    <pre><code>poolManager.initialize(key, startingSqrtPriceX96);</code></pre>
+    
+
+    <h3>Parameters</h3>
+    <p>This hook takes no per-pool configuration.</p>
+
+    <h3>From TypeScript</h3>
+    <pre><code>npm i @hookforge/sdk
+
+import {getHook, hookAddress, poolKeyFor} from "@hookforge/sdk";
+
+const hook = getHook("tenure-weighted-fees");
+const key  = poolKeyFor({
+  hook: hookAddress("tenure-weighted-fees", 8453),   // Base
+  currencyA: USDC, currencyB: WETH,
+  tickSpacing: 60,
+});</code></pre>
+
+    <h2>What it reverts with</h2>
+    <table>
+        <thead><tr><th>Error</th><th>Meaning</th></tr></thead>
+        <tbody><tr><td><code>HookFeeTooLarge()</code></td><td>Fee is higher than the maximum allowed fee.</td></tr>
+          <tr><td><code>InvalidTiers()</code></td><td>The tier schedule was empty, too long, out of order, or started above the unweighted multiplier.</td></tr>
+          <tr><td><code>SkimTooLarge()</code></td><td>The skim must leave the swap worth doing.</td></tr>
+          <tr><td><code>WrongPool()</code></td><td>This hook serves one pool, bound at its first initialization.</td></tr></tbody>
+      </table>
+
+    <h2>The callbacks it claims</h2>
+    <p>
+      Uniswap v4 reads a hook's permissions from the low fourteen bits of its own address, which is why deploying one
+      means mining a CREATE2 salt. This hook claims 5, so every deployment of it has an address ending
+      in <code>0x1544</code>.
+    </p>
+    <ul class="flags"><li class="flag">beforeInitialize</li><li class="flag flag--on">afterInitialize</li><li class="flag">beforeAddLiquidity</li><li class="flag flag--on">afterAddLiquidity</li><li class="flag">beforeRemoveLiquidity</li><li class="flag flag--on">afterRemoveLiquidity</li><li class="flag">beforeSwap</li><li class="flag flag--on">afterSwap</li><li class="flag">beforeDonate</li><li class="flag">afterDonate</li><li class="flag">beforeSwapReturnsDelta</li><li class="flag flag--on">afterSwapReturnsDelta</li><li class="flag">afterAddLiquidityReturnsDelta</li><li class="flag">afterRemoveLiquidityReturnsDelta</li></ul>
+
+    <h2>It says what it is, on-chain</h2>
+    <p>
+      Nothing about a hook's address tells an indexer, a wallet, a router or an agent what the pool does, which is why
+      hook discovery today is a curated list. This hook answers for itself, in one <code>eth_call</code>, with no
+      registry in the loop.
+    </p>
+    <pre><code>cast call $HOOK "hookName()(string)"    # TenureWeightedFees
+cast call $HOOK "specURI()(string)"     # https://tenure-weighted-fees.pages.dev/hook.json
+cast call $HOOK "hookTags()(string[])"  # lp-economics, tenure, jit-defence, rewards, no-admin</code></pre>
+
+    <h2 id="deploy">Build, test and deploy</h2>
+    <pre><code>git clone --recurse-submodules https://github.com/nirholas/tenure-weighted-fees
+cd tenure-weighted-fees
+forge build &amp;&amp; forge test
+
+# Dry run: mines the salt, prints the address, sends nothing.
+forge script script/Deploy.s.sol --rpc-url $RPC_URL
+
+# For real.
+forge script script/Deploy.s.sol --rpc-url $RPC_URL --broadcast --verify</code></pre>
+
+    <div class="callout callout--warn">
+      <h3>Status</h3>
+      <p>
+        <strong>Unaudited.</strong> Built to an audited shape, on OpenZeppelin's audited hook bases, and tested against
+        a real <code>PoolManager</code>. No third party has reviewed it. Read "where it does not help" above before
+        putting money behind it. Not affiliated with Uniswap Labs.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="shell">
+    <p>
+      <a href="https://github.com/nirholas/tenure-weighted-fees" rel="noopener">Source</a> &middot;
+      <a href="/hook.json">Manifest</a> &middot;
+      <a href="/llms.txt">llms.txt</a> &middot;
+      <a href="https://hookforge.pages.dev" rel="noopener">The rest of the catalogue</a>
+    </p>
+    <p>Apache-2.0 licensed. Not affiliated with Uniswap Labs.</p>
+  </div>
+</footer>
+<script type="module" src="/assets/scene.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+forge-std/=lib/forge-std/src/
+ds-test/=lib/forge-std/lib/ds-test/src/
+@uniswap/v4-core/=lib/v4-core/
+@uniswap/v4-periphery/=lib/v4-periphery/
+v4-core/=lib/v4-core/src/
+v4-periphery/=lib/v4-periphery/src/
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+@openzeppelin/=lib/openzeppelin-contracts/
+uniswap-hooks/=lib/uniswap-hooks/src/
+solmate/=lib/solmate/
+permit2/=lib/permit2/
+@prb/math/=lib/prb-math/src/

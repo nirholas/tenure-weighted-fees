@@ -1,0 +1,30 @@
+{
+  "name": "tenure-weighted-fees",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirholas/tenure-weighted-fees.git"
+  },
+  "homepage": "https://tenure-weighted-fees.pages.dev",
+  "keywords": [
+    "uniswap",
+    "uniswap-v4",
+    "uniswap-hooks",
+    "defi",
+    "amm",
+    "solidity",
+    "lp-economics",
+    "tenure",
+    "jit-defence",
+    "rewards",
+    "no-admin"
+  ],
+  "scripts": {
+    "build": "node web/build.mjs",
+    "contracts:build": "forge build",
+    "contracts:test": "forge test"
+  }
+}
