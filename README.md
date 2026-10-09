@@ -107,3 +107,7 @@ Needs `PRIVATE_KEY` in the environment and a funded deployer on the target chain
 **Unaudited.** Built to an audited shape, on OpenZeppelin's audited hook bases, and tested against a real `PoolManager`. No third party has reviewed it. Read "where it does not help" above before putting money behind it.
 
 Not affiliated with Uniswap Labs.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=nirholas/tenure-weighted-fees&type=Date)](https://www.star-history.com/#nirholas/tenure-weighted-fees&Date)
