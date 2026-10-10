@@ -1,5 +1,10 @@
 # TenureWeightedFees
 
+<!-- three.ws:badges -->
+[![GitHub stars](https://img.shields.io/github/stars/nirholas/tenure-weighted-fees?style=flat&logo=github)](https://github.com/nirholas/tenure-weighted-fees/stargazers) [![License](https://img.shields.io/github/license/nirholas/tenure-weighted-fees?style=flat)](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/LICENSE) [![Last commit](https://img.shields.io/github/last-commit/nirholas/tenure-weighted-fees?style=flat)](https://github.com/nirholas/tenure-weighted-fees/commits) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat)](https://github.com/nirholas/tenure-weighted-fees/pulls) [![AI agent friendly](https://img.shields.io/badge/AI%20agents-AGENTS.md%20%2B%20llms.txt-6d5dfc?style=flat)](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/AGENTS.md)
+<!-- /three.ws:badges -->
+
+
 **Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.**
 
 A production Uniswap v4 hook. It holds no funds and takes no fee for itself. No owner, no pause switch, no upgrade path.
@@ -111,3 +116,26 @@ Not affiliated with Uniswap Labs.
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nirholas/tenure-weighted-fees&type=Date)](https://www.star-history.com/#nirholas/tenure-weighted-fees&Date)
+
+<!-- three.ws:growth -->
+## Support the project
+
+If tenure-weighted-fees saves you time, **[star it on GitHub](https://github.com/nirholas/tenure-weighted-fees)**. Stars are how other developers and AI agents find the repositories worth trusting, and they cost you one click.
+
+Know someone who would use it? [Post on X](https://twitter.com/intent/tweet?text=tenure-weighted-fees%3A%20Pays%20liquidity%20that%20stays%20more%20than%20liquidity%20that%20visits%2C%20by%20skimming%20a%20slice%20of%20every%20swap%20into%20a&url=https%3A%2F%2Fgithub.com%2Fnirholas%2Ftenure-weighted-fees) · [Share on Bluesky](https://bsky.app/intent/compose?text=tenure-weighted-fees%3A%20Pays%20liquidity%20that%20stays%20more%20than%20liquidity%20that%20visits%2C%20by%20skimming%20a%20slice%20of%20every%20swap%20into%20a%20https%3A%2F%2Fgithub.com%2Fnirholas%2Ftenure-weighted-fees) · [Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fnirholas%2Ftenure-weighted-fees) · [Submit to Hacker News](https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fgithub.com%2Fnirholas%2Ftenure-weighted-fees&t=tenure-weighted-fees%3A%20Pays%20liquidity%20that%20stays%20more%20than%20liquidity%20that%20visits%2C%20by%20skimming%20a%20slice%20of%20every%20swap%20into%20a) · [Share on Reddit](https://www.reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fnirholas%2Ftenure-weighted-fees&title=tenure-weighted-fees%3A%20Pays%20liquidity%20that%20stays%20more%20than%20liquidity%20that%20visits%2C%20by%20skimming%20a%20slice%20of%20every%20swap%20into%20a)
+
+## Built for AI agents too
+
+Coding agents and LLM tooling can read this repo directly: [AGENTS.md](./AGENTS.md), [llms.txt](./llms.txt), [llms-full.txt](./llms-full.txt). Point an agent at `https://github.com/nirholas/tenure-weighted-fees` and it has the context it needs.
+
+## More from the same author
+
+- [All repositories by nirholas](https://github.com/nirholas/nirholas#readme): the full catalog, grouped by topic
+- [three.ws](https://three.ws): the platform for 3D AI agents with Solana wallets, a skill marketplace and x402 payments
+- Questions or ideas: [open an issue](https://github.com/nirholas/tenure-weighted-fees/issues) or [start a discussion](https://github.com/nirholas/tenure-weighted-fees/discussions)
+
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=nirholas/tenure-weighted-fees)](https://github.com/nirholas/tenure-weighted-fees/graphs/contributors)
+
+<!-- /three.ws:growth -->

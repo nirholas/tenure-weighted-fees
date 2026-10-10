@@ -1,0 +1,28 @@
+# tenure-weighted-fees
+
+> Pays liquidity that stays more than liquidity that visits, by skimming a slice of every swap into a pot and sharing it out in proportion to how long each position has been in the pool.
+
+tenure-weighted-fees is an open-source repository by nirholas, part of the three.ws ecosystem.
+
+## Docs
+
+- [README](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md): install, usage and reference
+- [How it works](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#how-it-works)
+- [Prior art](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#prior-art)
+- [Where it does not help](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#where-it-does-not-help)
+- [Using it](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#using-it)
+- [What it reverts with](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#what-it-reverts-with)
+- [The callbacks it claims](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#the-callbacks-it-claims)
+- [It says what it is, on-chain](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#it-says-what-it-is-on-chain)
+- [Build and test](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/README.md#build-and-test)
+- [AGENTS.md](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/AGENTS.md): guidance for coding agents
+- [Full text for LLMs](https://github.com/nirholas/tenure-weighted-fees/blob/HEAD/llms-full.txt): the README inlined
+
+## Project
+
+- [Source](https://github.com/nirholas/tenure-weighted-fees)
+- [Issues](https://github.com/nirholas/tenure-weighted-fees/issues)
+- [Discussions](https://github.com/nirholas/tenure-weighted-fees/discussions)
+- [Homepage](https://tenure-weighted-fees.pages.dev)
+- [three.ws](https://three.ws): the platform this is part of
+- [All repositories by nirholas](https://github.com/nirholas/nirholas#readme)
